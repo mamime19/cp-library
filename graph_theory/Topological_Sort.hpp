@@ -2,6 +2,7 @@
 #include<vector>
 using namespace std;
 
+int N;
 int H[200010];
 vector<int> G[200010];
 deque<int> que;
