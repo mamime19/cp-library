@@ -48,6 +48,14 @@ class mint {
             a *= *this;
         return a;
     }
+    constexpr mint comb(long long n, long long r) const {
+        mint a = 1;
+        for (int i = 1; i <= r; i++) {
+            a *= n - i + 1;
+            a /= i;
+        }
+        return a;
+    }
     // 素数のときのみ使用可能
     constexpr mint inv() const { return pow(mod - 2); }
     constexpr mint &operator/=(const mint &a) { return (*this) *= a.inv(); }
