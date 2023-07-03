@@ -1,4 +1,6 @@
-#include<iostream>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
 constexpr long long mod = 1000000007;
@@ -66,5 +68,36 @@ class mint {
     friend ostream &operator<<(ostream &os, const mint &m) {
         os << m.x;
         return os;
+    }
+};
+// 二項係数nCkを素数pで割った余り
+// 前処理O(N)
+// クエリO(1)
+
+class Binomial_coefficients {
+  private:
+    vector<mint> fact;
+    vector<mint> finv;
+    vector<mint> inv;
+
+  public:
+    Binomial_coefficients(int n) {
+        fact.resize(n);
+        finv.resize(n);
+        inv.resize(n);
+        fact[0] = fact[1] = 1;
+        finv[0] = finv[1] = 1;
+        inv[1] = 1;
+        for (int i = 2; i < n; i++) {
+            fact[i] = fact[i - 1] * i;
+            inv[i] = (mint(0) - inv[mod % i]) * (mod / i);
+            finv[i] = finv[i - 1] * inv[i];
+        }
+    }
+    mint get(int n, int k) {
+        if (n < k || n < 0 || k < 0) {
+            return 0;
+        }
+        return fact[n] * (finv[k] * finv[n - k]);
     }
 };
