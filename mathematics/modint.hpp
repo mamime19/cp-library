@@ -1,8 +1,8 @@
-#include<iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-constexpr long long mod = 1000000007;
-// constexpr long long mod=998244353;
+// constexpr long long mod = 1000000007;
+constexpr long long mod = 998244353;
 
 class mint {
   private:
@@ -66,5 +66,31 @@ class mint {
     friend ostream &operator<<(ostream &os, const mint &m) {
         os << m.x;
         return os;
+    }
+};
+
+class BiominalCoefficient {
+  private:
+    vector<mint> fact;
+    vector<mint> finv;
+    vector<mint> inv;
+
+  public:
+    BiominalCoefficient(int n) : fact(n), finv(n), inv(n) {
+        fact[0] = fact[1] = 1;
+        finv[0] = finv[1] = 1;
+        inv[1] = 1;
+        for (int i = 2; i < n; i++) {
+            fact[i] = fact[i - 1] * i;
+            inv[i] = (mint)mod - inv[mod % i] * mint(mod / i);
+            finv[i] = finv[i - 1] * inv[i];
+        }
+    }
+    mint get(int n, int k) {
+        if (n < k)
+            return 0;
+        if (n < 0 || k < 0)
+            return 0;
+        return fact[n] * finv[k] * finv[n - k];
     }
 };
